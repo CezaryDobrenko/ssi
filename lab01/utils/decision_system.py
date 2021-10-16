@@ -1,11 +1,13 @@
-from typing import List
+from typing import List, Optional
+
 from utils.descriptor import Descriptor
 
 
 class DecisionSystem:
-    __descriptors = []
+    __descriptors: List[Descriptor]
 
     def __init__(self, name):
+        self.__descriptors = []
         self.__name = name
 
     def load_descriptors_from_file(self, attrib_path: str, data_path: str) -> None:
@@ -18,8 +20,8 @@ class DecisionSystem:
                 class_name = attrib_values.pop()
                 descriptor = Descriptor(
                     class_name=class_name,
-                    values_types=attrib_types,
                     values=attrib_values,
+                    values_types=attrib_types,
                 )
                 self.__descriptors.append(descriptor)
 
@@ -29,9 +31,9 @@ class DecisionSystem:
             for atrib in atribs.readlines():
                 atrib_data = atrib.split()
                 if atrib_data[1] == "n":
-                    descriptor_types.append(True)
-                else:
                     descriptor_types.append(False)
+                else:
+                    descriptor_types.append(True)
         return descriptor_types
 
     def __parse_descriptors_values(
@@ -42,7 +44,7 @@ class DecisionSystem:
 
         descriptor_values = []
         for i in range(len(raw_atribs_values)):
-            if atribs_type[i]:
+            if not atribs_type[i]:
                 parsed_value = float(raw_atribs_values[i].replace(",", "."))
             else:
                 parsed_value = raw_atribs_values[i]
@@ -55,7 +57,7 @@ class DecisionSystem:
     def get_descriptor(self, index: int) -> Descriptor:
         return self.__descriptors[index]
 
-    def get_descriptors(self) -> List[Descriptor]:
+    def get_all_descriptors(self) -> List[Descriptor]:
         return self.__descriptors
 
     def get_descriptors_by_class_name(self, class_name: str) -> List[Descriptor]:
@@ -64,6 +66,19 @@ class DecisionSystem:
             if descriptor.get_class_name() == class_name:
                 list_of_descriptors.append(descriptor)
         return list_of_descriptors
+
+    def get_values_from_descriptors(
+        self, index: int, class_name: Optional[str] = None
+    ) -> List:
+        if class_name:
+            descriptors = self.get_descriptors_by_class_name(class_name=class_name)
+        else:
+            descriptors = self.get_all_descriptors()
+
+        values = []
+        for descriptor in descriptors:
+            values.append(descriptor.get_value(index))
+        return values
 
     def remove_descriptor(self, index: int) -> None:
         self.__descriptors.remove(index)
