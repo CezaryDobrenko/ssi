@@ -118,7 +118,9 @@ class DecisionSystem:
             for i in range(count_classes):
                 values_x = self.get_values_from_descriptors(index_x, classes[i])
                 values_y = self.get_values_from_descriptors(index_y, classes[i])
-                plotter.draw_points(values_x, values_y, color=colors[i])
+                plotter.draw_points(
+                    values_x, values_y, color=colors[i], label=f"class= {classes[i]}"
+                )
             current_subplot += 1
         if show_plot:
             plotter.show()
