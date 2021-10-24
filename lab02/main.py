@@ -5,15 +5,15 @@ from utils.plotter import Plotter
 def draw_face():
     plotter = Plotter()
     plotter.add_grid()
-    plotter.draw_point(-1, 1, size=30, color="blue")
-    plotter.draw_point(0, 0, size=30, color="blue")
-    plotter.draw_point(1, 1, size=30, color="blue")
-    plotter.draw_curve((-2, 0), (0, -2), style="r-")
-    plotter.draw_curve((-2, 0), (0, 2), style="r-")
-    plotter.draw_curve((2, 0), (0, -2), style="r-")
-    plotter.draw_curve((2, 0), (0, 2), style="r-")
-    plotter.draw_curve((-1, 0), (0, -1), style="y-")
-    plotter.draw_curve((0, -1), (1, 0), style="y-")
+    plotter.draw_point(-1, 1, size=30, color="blue", label="upper face")
+    plotter.draw_point(0, 0, size=30, color="blue", label="upper face")
+    plotter.draw_point(1, 1, size=30, color="blue", label="upper face")
+    plotter.draw_curve((-2, 0), (0, -2), style="r-", label="outer face")
+    plotter.draw_curve((-2, 0), (0, 2), style="r-", label="outer face")
+    plotter.draw_curve((2, 0), (0, -2), style="r-", label="outer face")
+    plotter.draw_curve((2, 0), (0, 2), style="r-", label="outer face")
+    plotter.draw_curve((-1, 0), (0, -1), style="y-", label="smile")
+    plotter.draw_curve((0, -1), (1, 0), style="y-", label="smile")
     plotter.show()
 
 
@@ -22,18 +22,17 @@ def subplot_example():
 
     x = [1, 2, 3]
     y = [1, -1, 3]
-    plotter.draw_poly_line(x, y)
+    plotter.draw_poly_line(x, y, label="ployline example")
 
     plotter.change_subplot(2)
-    plotter.draw_point(1, 2)
+    plotter.draw_point(1, 2, label="point example")
 
     plotter.change_subplot(3)
-    plotter.draw_line((1, 2), (2, 3), "r-")
+    plotter.draw_line((1, 2), (2, 3), style="r-", label="line example")
 
     plotter.change_subplot(5)
-    plotter.draw_curve((1, 2), (2, 3), "r-")
-    plotter.draw_point(2, 2, size=20, color="blue")
-
+    plotter.draw_curve((1, 2), (2, 3), style="r-", label="curve example")
+    plotter.draw_point(2, 2, size=20, color="blue", label="point example")
     plotter.show()
 
 

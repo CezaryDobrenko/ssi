@@ -5,64 +5,88 @@ import numpy as np
 
 
 class Plotter:
+    fig: object
+    ax: List[object]
+    total_subplots: int
+    current_subplot: Optional[int]
+    subplot_y_count: int
+    subplot_x_count: int
+
     def __init__(self, subplots: Optional[Tuple[int, int]] = None):
         if subplots:
             self.subplot_x_count, self.subplot_y_count = subplots
             self.fig, self.ax = plt.subplots(self.subplot_x_count, self.subplot_y_count)
             self.total_subplots = self.subplot_x_count * self.subplot_y_count
+            self.current_subplot = 1
             self.change_subplot(1)
         else:
             self.fig, self.ax = plt.subplots()
+            self.current_subplot = None
 
         self.serie_number = 0
         self.series = ["r-", "bo", "g--", "c-", "mo", "y--", "k-", "ro", "b--", "g-"]
 
-    def clear(self):
+    def clear(self) -> None:
         self.serie_number = 0
-        self.ax.cla()
+        if self.current_subplot:
+            for x_axis in self.ax:
+                for subplot in x_axis:
+                    subplot.cla()
+        else:
+            self.ax.cla()
 
-    def show(self):
+    def show(self) -> None:
         plt.show()
 
-    def add_grid(self):
+    def add_grid(self) -> None:
         plt.grid()
 
-    def add_title(self, title: str):
+    def add_title(self, title: str) -> None:
         plt.title(title)
 
-    def add_labels(self, label_x: str, label_y: str):
+    def add_labels(self, label_x: str, label_y: str) -> None:
         plt.xlabel(label_x)
         plt.ylabel(label_y)
 
-    def get_serie_style(self):
+    def get_serie_style(self) -> None:
         return self.series[self.serie_number % 10]
 
-    def change_subplot(self, index: int):
+    def change_subplot(self, index: int) -> None:
         if index < 1 or index > self.total_subplots:
             raise Exception("Subplot with that index does not exist!")
 
         plt.subplot(self.subplot_x_count, self.subplot_y_count, index)
+        self.current_subplot = index
 
-    def draw_point(self, x: float, y: float, size: int = 10, color: str = "black"):
-        plt.scatter(x, y, s=size, c=[color])
+    def draw_point(
+        self, x: float, y: float, label: str, size: int = 10, color: str = "black"
+    ) -> None:
+        plt.scatter(x, y, s=size, c=[color], label=label)
+        plt.legend(loc="upper left")
         plt.draw()
 
     def draw_points(
         self,
         arguments: List[float],
         values: List[float],
+        label: str,
         size: int = 10,
         color: str = "black",
-    ):
+    ) -> None:
         if len(arguments) != len(values):
             raise Exception("Arguments length do not match length of values!")
 
-        plt.scatter(arguments, values, s=size, c=[color])
+        plt.scatter(arguments, values, s=size, c=[color], label=label)
+        plt.legend(loc="upper left")
         plt.draw()
 
     def draw_line(
-        self, point1: Tuple[float, float], point2: Tuple[float, float], style: str = ""
-    ):
+        self,
+        point1: Tuple[float, float],
+        point2: Tuple[float, float],
+        label: str,
+        style: str = "",
+    ) -> None:
         if not style:
             style = self.get_serie_style()
             self.serie_number += 1
@@ -70,25 +94,28 @@ class Plotter:
         x_start, y_start = point1
         x_end, y_end = point2
         plt.plot([x_start, x_end], [y_start, y_end], style)
+        plt.legend(loc="upper left")
         plt.draw()
 
     def draw_poly_line(
-        self, arguments: List[float], values: List[float], style: str = ""
-    ):
+        self, arguments: List[float], values: List[float], label: str, style: str = ""
+    ) -> None:
         if not style:
             style = self.get_serie_style()
             self.serie_number += 1
 
-        plt.plot(arguments, values, style)
+        plt.plot(arguments, values, style, label=label)
+        plt.legend(loc="upper left")
         plt.draw()
 
     def draw_curve(
         self,
         point1: Tuple[float, float],
         point2: Tuple[float, float],
+        label: str,
         style: str = "",
         smoothnes: int = 100,
-    ):
+    ) -> None:
         if not style:
             style = self.get_serie_style()
             self.serie_number += 1
@@ -99,4 +126,6 @@ class Plotter:
         b = y_start - a * np.cosh(x_start)
         arguments = np.linspace(x_start, x_end, smoothnes)
         values = a * np.cosh(arguments) + b
-        plt.plot(arguments, values, style)
+        plt.plot(arguments, values, style, label=label)
+        plt.legend(loc="upper left")
+        plt.draw()
