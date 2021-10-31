@@ -41,8 +41,8 @@ class AlgorithmOnePlusOne:
                 points_y.append(new_y)
             else:
                 self.__scatter_factor /= self.__increment_factor
-        self.__plot.draw_point(points_x.pop(), points_y.pop(), size=50)
-        self.__plot.draw_points(points_x, points_y, color="green")
+        self.__plot.draw_point(points_x.pop(), points_y.pop(), size=50, label="final point")
+        self.__plot.draw_points(points_x, points_y, color="green", label="steps")
         if show_plot:
             self.__plot.show()
 
@@ -60,6 +60,6 @@ class AlgorithmOnePlusOne:
     def __create_base_plot(self, arguments: List[float], start_x: float, start_y: float):
         values = [self.__calculate_value(x) for x in arguments]
         plot = Plotter()
-        plot.draw_poly_line(arguments, values)
-        plot.draw_point(start_x, start_y, size=30, color="blue")
+        plot.draw_poly_line(arguments, values, label="function")
+        plot.draw_point(start_x, start_y, size=30, color="blue", label="start point")
         return plot

@@ -42,7 +42,7 @@ def main():
 
     decision_system = DecisionSystem(name="iris_decision_system")
     decision_system.load_descriptors_from_file(
-        "lab01/data/iris-type.txt", "lab01/data/iris.txt"
+        "data/iris-type.txt", "data/iris.txt"
     )
     decision_system.add_plot(
         subplots_info=(2, 2),

@@ -1,4 +1,4 @@
-from utils.evolution_one_plus_one import AlgorithmOnePlusOne
+from utils.algorithms.algorithm_one_plus_one import AlgorithmOnePlusOne
 
 def main():
     bounds = (0,100)
