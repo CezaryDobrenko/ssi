@@ -9,7 +9,7 @@ def main():
     print(decision_system.get_descriptor(1).get_value(2))
     print(decision_system.get_descriptor(1).get_value_type(2))
     print(decision_system.get_all_descriptors())
-    print(decision_system.get_descriptors_by_class_name("3"))
+    print(decision_system.get_descriptors_by_class_name("Setosa"))
 
 
 if __name__ == "__main__":

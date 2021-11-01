@@ -4,17 +4,20 @@ from distinctipy import distinctipy
 from utils.descriptor import Descriptor
 from utils.plotter import Plotter
 from PIL import Image  
+import re
 
 
 class DecisionSystem:
     __name: str
     __default_class_name: str
+    __class_index: List[str]
     __class_names: List[str]
     __descriptors: List[Descriptor]
     __plots: List[str]
 
     def __init__(self, name):
         self.__name = name
+        self.__class_index = []
         self.__class_names = []
         self.__descriptors = []
         self.__plots = []
@@ -29,8 +32,8 @@ class DecisionSystem:
                     values.split(), attrib_types
                 )
                 class_name = attrib_values.pop() if last_attrib is True else self.__default_class_name
-                if class_name not in self.__class_names:
-                    self.__class_names.append(class_name)
+                if class_name not in self.__class_index:
+                    self.__class_index.append(class_name)
                 descriptor = Descriptor(
                     class_name=class_name,
                     values=attrib_values,
@@ -47,7 +50,15 @@ class DecisionSystem:
                     descriptor_types.append(False)
                 else:
                     descriptor_types.append(True)
+            self.__class_names = self.__parse_class_names(atrib_data)
         return descriptor_types
+
+    def __parse_class_names(self, atrib_data: str) -> List[str]:
+        raw_type_data = atrib_data[0]
+        type_data = re.split(r"[\()=\,\)]", raw_type_data)[1:-1]
+        type_names = type_data[1::2]
+        return type_names
+
 
     def __parse_descriptors_values(
         self, raw_atribs_values: List[str], atribs_type: List[bool]
@@ -102,11 +113,12 @@ class DecisionSystem:
         subplots_data: List[Tuple[int, int]],
         selected_classes: Optional[List[str]] = None,
         show_plot: Optional[bool] = False,
+        save_plot: Optional[bool] = False,
     ) -> None:
         if selected_classes:
             classes = selected_classes
         else:
-            classes = self.__class_names
+            classes = self.__class_index
 
         plotter = Plotter(subplots=subplots_info)
         count_classes = len(classes)
@@ -124,11 +136,12 @@ class DecisionSystem:
                 values_x = self.get_values_from_descriptors(index_x, classes[i])
                 values_y = self.get_values_from_descriptors(index_y, classes[i])
                 plotter.draw_points(
-                    values_x, values_y, color=colors[i], label=f"class= {classes[i]}"
+                    values_x, values_y, color=colors[i], label=f"class= {self.__class_names[i]}"
                 )
             current_subplot += 1
-        plotter.save(f"plot_{current_plot}")
-        self.__plots.append(f"plot_{current_plot}")
+        if save_plot:
+            plotter.save(f"plot_{current_plot}")
+            self.__plots.append(f"plot_{current_plot}")
         plotter.show() if show_plot else None
         plotter.close()
 

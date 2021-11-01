@@ -48,15 +48,16 @@ def main():
     decision_system.add_plot(
         subplots_info=(2, 2),
         subplots_data=[(2, 3), (1, 3), (0, 3), (1, 2)],
-        show_plot=False
+        show_plot=False,
+        save_plot=True,
     )
     decision_system.add_plot(
         subplots_info=(2, 2),
         subplots_data=[(1, 2), (2, 3), (1, 3), (3, 2)],
-        show_plot=False
+        show_plot=True,
+        save_plot=True,
     )
-    #decision_system.show_plot("plot_1")
-    decision_system.show_plots()
+    decision_system.show_plot("plot_1")
 
 
 if __name__ == "__main__":

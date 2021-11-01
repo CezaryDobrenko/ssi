@@ -7,28 +7,28 @@ import numpy as np
 class Plotter:
     fig: object
     ax: List[object]
-    total_subplots: int
-    current_subplot: Optional[int]
-    subplot_y_count: int
-    subplot_x_count: int
+    __total_subplots: int
+    __current_subplot: Optional[int]
+    __subplot_y_count: int
+    __subplot_x_count: int
 
     def __init__(self, subplots: Optional[Tuple[int, int]] = None):
         if subplots:
-            self.subplot_x_count, self.subplot_y_count = subplots
-            self.fig, self.ax = plt.subplots(self.subplot_x_count, self.subplot_y_count)
-            self.total_subplots = self.subplot_x_count * self.subplot_y_count
-            self.current_subplot = 1
+            self.__subplot_x_count, self.__subplot_y_count = subplots
+            self.fig, self.ax = plt.subplots(self.__subplot_x_count, self.__subplot_y_count)
+            self.__total_subplots = self.__subplot_x_count * self.__subplot_y_count
+            self.__current_subplot = 1
             self.change_subplot(1)
         else:
             self.fig, self.ax = plt.subplots()
-            self.current_subplot = None
+            self.__current_subplot = None
 
         self.serie_number = 0
         self.series = ["r-", "bo", "g--", "c-", "mo", "y--", "k-", "ro", "b--", "g-"]
 
     def clear(self) -> None:
         self.serie_number = 0
-        if self.current_subplot:
+        if self.__current_subplot:
             for x_axis in self.ax:
                 for subplot in x_axis:
                     subplot.cla()
@@ -43,7 +43,7 @@ class Plotter:
 
     def save(self, file_name: str) -> None:
         plt.tight_layout()
-        plt.savefig(f"plots/{file_name}.png", dpi=600)
+        plt.savefig(f"plots/{file_name}.png", dpi=300)
 
     def add_grid(self) -> None:
         plt.grid()
@@ -59,11 +59,11 @@ class Plotter:
         return self.series[self.serie_number % 10]
 
     def change_subplot(self, index: int) -> None:
-        if index < 1 or index > self.total_subplots:
+        if index < 1 or index > self.__total_subplots:
             raise Exception("Subplot with that index does not exist!")
 
-        plt.subplot(self.subplot_x_count, self.subplot_y_count, index)
-        self.current_subplot = index
+        plt.subplot(self.__subplot_x_count, self.__subplot_y_count, index)
+        self.__current_subplot = index
 
     def draw_point(
         self, x: float, y: float, label: str, size: int = 10, color: str = "black"
