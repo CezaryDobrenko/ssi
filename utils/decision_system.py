@@ -3,28 +3,32 @@ from typing import List, Optional, Tuple
 from distinctipy import distinctipy
 from utils.descriptor import Descriptor
 from utils.plotter import Plotter
+from PIL import Image  
 
 
 class DecisionSystem:
     __name: str
+    __default_class_name: str
     __class_names: List[str]
     __descriptors: List[Descriptor]
-    __plots: List[Plotter]
+    __plots: List[str]
 
     def __init__(self, name):
         self.__name = name
         self.__class_names = []
         self.__descriptors = []
         self.__plots = []
+        self.__default_class_name = "set"
 
     def load_descriptors_from_file(self, attrib_path: str, data_path: str) -> None:
         attrib_types = self.__load_descriptors_types(attrib_path)
+        last_attrib = attrib_types[-1]
         with open(data_path) as values_from_file:
             for values in values_from_file.readlines():
                 attrib_values = self.__parse_descriptors_values(
                     values.split(), attrib_types
                 )
-                class_name = attrib_values.pop()
+                class_name = attrib_values.pop() if last_attrib is True else self.__default_class_name
                 if class_name not in self.__class_names:
                     self.__class_names.append(class_name)
                 descriptor = Descriptor(
@@ -104,8 +108,9 @@ class DecisionSystem:
         else:
             classes = self.__class_names
 
-        count_classes = len(classes)
         plotter = Plotter(subplots=subplots_info)
+        count_classes = len(classes)
+        current_plot = len(self.__plots)
         current_subplot = 1
         for subplot_data in subplots_data:
             index_x, index_y = subplot_data
@@ -122,19 +127,17 @@ class DecisionSystem:
                     values_x, values_y, color=colors[i], label=f"class= {classes[i]}"
                 )
             current_subplot += 1
-        if show_plot:
-            plotter.show()
-        self.__plots.append(plotter)
+        plotter.save(f"plot_{current_plot}")
+        self.__plots.append(f"plot_{current_plot}")
+        plotter.show() if show_plot else None
+        plotter.close()
 
-    def get_plot(self, index: int) -> Plotter:
-        return self.__plots[index]
-
-    def show_plot(self, index: int) -> None:
-        plotter = self.__plots[index]
-        plotter.show()
-
-    def remove_plot(self, index: int) -> None:
-        self.__plots.remove(index)
+    def show_plot(self, file_name: str) -> None:
+        if file_name in self.__plots:
+            img = Image.open(f"plots/{file_name}.png")
+            img.show() 
+        else:
+            raise Exception(f"Plot with that name does not exist! Choices are: {self.__plots}")
 
     def __str__(self):
         return f"DecisionSystem: name= {self.__name}, descriptors= {self.__descriptors}"
