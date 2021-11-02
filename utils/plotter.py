@@ -15,7 +15,9 @@ class Plotter:
     def __init__(self, subplots: Optional[Tuple[int, int]] = None):
         if subplots:
             self.__subplot_x_count, self.__subplot_y_count = subplots
-            self.fig, self.ax = plt.subplots(self.__subplot_x_count, self.__subplot_y_count)
+            self.fig, self.ax = plt.subplots(
+                self.__subplot_x_count, self.__subplot_y_count
+            )
             self.__total_subplots = self.__subplot_x_count * self.__subplot_y_count
             self.__current_subplot = 1
             self.change_subplot(1)
@@ -69,7 +71,7 @@ class Plotter:
         self, x: float, y: float, label: str, size: int = 10, color: str = "black"
     ) -> None:
         plt.scatter(x, y, s=size, c=[color], label=label)
-        plt.legend(loc="upper left", prop={'size': 6})
+        plt.legend(loc="upper left", prop={"size": 6})
         plt.draw()
 
     def draw_points(
@@ -84,7 +86,7 @@ class Plotter:
             raise Exception("Arguments length do not match length of values!")
 
         plt.scatter(arguments, values, s=size, c=[color], label=label)
-        plt.legend(loc="upper left", prop={'size': 6})
+        plt.legend(loc="upper left", prop={"size": 6})
         plt.draw()
 
     def draw_line(
@@ -101,7 +103,7 @@ class Plotter:
         x_start, y_start = point1
         x_end, y_end = point2
         plt.plot([x_start, x_end], [y_start, y_end], style)
-        plt.legend(loc="upper left", prop={'size': 6})
+        plt.legend(loc="upper left", prop={"size": 6})
         plt.draw()
 
     def draw_poly_line(
@@ -112,7 +114,7 @@ class Plotter:
             self.serie_number += 1
 
         plt.plot(arguments, values, style, label=label)
-        plt.legend(loc="upper left", prop={'size': 6})
+        plt.legend(loc="upper left", prop={"size": 6})
         plt.draw()
 
     def draw_curve(
@@ -134,5 +136,5 @@ class Plotter:
         arguments = np.linspace(x_start, x_end, smoothnes)
         values = a * np.cosh(arguments) + b
         plt.plot(arguments, values, style, label=label)
-        plt.legend(loc="upper left", prop={'size': 6})
+        plt.legend(loc="upper left", prop={"size": 6})
         plt.draw()

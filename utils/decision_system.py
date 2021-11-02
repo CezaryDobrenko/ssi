@@ -1,10 +1,11 @@
+import re
 from typing import List, Optional, Tuple
 
 from distinctipy import distinctipy
+from PIL import Image
+
 from utils.descriptor import Descriptor
 from utils.plotter import Plotter
-from PIL import Image  
-import re
 
 
 class DecisionSystem:
@@ -31,7 +32,11 @@ class DecisionSystem:
                 attrib_values = self.__parse_descriptors_values(
                     values.split(), attrib_types
                 )
-                class_name = attrib_values.pop() if last_attrib is True else self.__default_class_name
+                class_name = (
+                    attrib_values.pop()
+                    if last_attrib is True
+                    else self.__default_class_name
+                )
                 if class_name not in self.__class_index:
                     self.__class_index.append(class_name)
                 descriptor = Descriptor(
@@ -58,7 +63,6 @@ class DecisionSystem:
         type_data = re.split(r"[\()=\,\)]", raw_type_data)[1:-1]
         type_names = type_data[1::2]
         return type_names
-
 
     def __parse_descriptors_values(
         self, raw_atribs_values: List[str], atribs_type: List[bool]
@@ -136,7 +140,10 @@ class DecisionSystem:
                 values_x = self.get_values_from_descriptors(index_x, classes[i])
                 values_y = self.get_values_from_descriptors(index_y, classes[i])
                 plotter.draw_points(
-                    values_x, values_y, color=colors[i], label=f"class= {self.__class_names[i]}"
+                    values_x,
+                    values_y,
+                    color=colors[i],
+                    label=f"class= {self.__class_names[i]}",
                 )
             current_subplot += 1
         if save_plot:
@@ -148,9 +155,11 @@ class DecisionSystem:
     def show_plot(self, file_name: str) -> None:
         if file_name in self.__plots:
             img = Image.open(f"plots/{file_name}.png")
-            img.show() 
+            img.show()
         else:
-            raise Exception(f"Plot with that name does not exist! Choices are: {self.__plots}")
+            raise Exception(
+                f"Plot with that name does not exist! Choices are: {self.__plots}"
+            )
 
     def __str__(self):
         return f"DecisionSystem: name= {self.__name}, descriptors= {self.__descriptors}"

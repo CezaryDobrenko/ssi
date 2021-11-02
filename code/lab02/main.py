@@ -1,4 +1,5 @@
 from matplotlib.pyplot import show
+
 from utils.decision_system import DecisionSystem
 from utils.plotter import Plotter
 
@@ -42,9 +43,7 @@ def main():
     # subplot_example()
 
     decision_system = DecisionSystem(name="iris_decision_system")
-    decision_system.load_descriptors_from_file(
-        "data/iris-type.txt", "data/iris.txt"
-    )
+    decision_system.load_descriptors_from_file("data/iris-type.txt", "data/iris.txt")
     decision_system.add_plot(
         subplots_info=(2, 2),
         subplots_data=[(2, 3), (1, 3), (0, 3), (1, 2)],

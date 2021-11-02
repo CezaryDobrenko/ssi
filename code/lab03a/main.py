@@ -1,6 +1,8 @@
-from utils.decision_system import DecisionSystem
 import matplotlib.pyplot as plt
 import numpy as np
+
+from utils.decision_system import DecisionSystem
+
 
 def main():
     decision_system = DecisionSystem(name="spirala_decision_system")
@@ -8,7 +10,6 @@ def main():
         "data/spirala-type.txt", "data/spirala.txt"
     )
     print(decision_system)
-
 
 
 if __name__ == "__main__":
