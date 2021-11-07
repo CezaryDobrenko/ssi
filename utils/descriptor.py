@@ -2,6 +2,7 @@ from typing import List
 
 
 class Descriptor:
+    __class_name: str
     __values: List[float]
     __values_types: List[bool]
 
@@ -19,6 +20,9 @@ class Descriptor:
     def set_value(self, value: float) -> None:
         self.__values.append(value)
 
+    def update_value(self, index: int, value: float) -> None:
+        self.__values[index] = value
+
     def get_value(self, index: int) -> float:
         return self.__values[index]
 
@@ -27,6 +31,9 @@ class Descriptor:
 
     def get_class_name(self) -> str:
         return self.__class_name
+
+    def get_values(self) -> List[float]:
+        return self.__values
 
     def __str__(self):
         return f"Descriptor: class= {self.__class_name}, values={str(self.__values)}, types={str(self.__values_types)}"

@@ -11,14 +11,12 @@ from utils.plotter import Plotter
 class DecisionSystem:
     __name: str
     __default_class_name: str
-    __class_index: List[str]
     __class_names: List[str]
     __descriptors: List[Descriptor]
     __plots: List[str]
 
     def __init__(self, name):
         self.__name = name
-        self.__class_index = []
         self.__class_names = []
         self.__descriptors = []
         self.__plots = []
@@ -33,12 +31,12 @@ class DecisionSystem:
                     values.split(), attrib_types
                 )
                 class_name = (
-                    attrib_values.pop()
+                    self.__class_names[int(attrib_values.pop())-1]
                     if last_attrib is True
                     else self.__default_class_name
                 )
-                if class_name not in self.__class_index:
-                    self.__class_index.append(class_name)
+                if class_name not in self.__class_names:
+                    self.__class_names.append(class_name)
                 descriptor = Descriptor(
                     class_name=class_name,
                     values=attrib_values,
@@ -122,7 +120,7 @@ class DecisionSystem:
         if selected_classes:
             classes = selected_classes
         else:
-            classes = self.__class_index
+            classes = self.__class_names
 
         plotter = Plotter(subplots=subplots_info)
         count_classes = len(classes)
