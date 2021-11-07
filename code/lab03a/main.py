@@ -1,6 +1,5 @@
 from utils.decision_system import DecisionSystem
 from utils.descriptor import Descriptor
-from utils.plotter import Plotter
 import random
 import math
 import copy
@@ -57,20 +56,7 @@ def main():
                         sum_of_group += group_descriptor.get_value(attrib_index)
                     middle_point.update_value(attrib_index, sum_of_group/count_of_group)
 
-    plotter = Plotter()
-    x0 = decision_system.get_values_from_descriptors(0, "0")
-    y0 = decision_system.get_values_from_descriptors(1, "0")
-    x1 = decision_system.get_values_from_descriptors(0, "1")
-    y1 = decision_system.get_values_from_descriptors(1, "1")
-    x2 = decision_system.get_values_from_descriptors(0, "2")
-    y2 = decision_system.get_values_from_descriptors(1, "2")
-    x3 = decision_system.get_values_from_descriptors(0, "3")
-    y3 = decision_system.get_values_from_descriptors(1, "3")
-    plotter.draw_points(x0, y0, label="group 0", color="red")
-    plotter.draw_points(x1, y1, label="group 1", color="blue")
-    plotter.draw_points(x2, y2, label="group 2", color="green")
-    plotter.draw_points(x3, y3, label="group 3", color="yellow")
-    plotter.show()
+    decision_system.add_plot((1,1), [(0,1)], selected_classes=["0","1","2","3"], show_plot=True)
 
     #TO DO
     # Refactor to OOP

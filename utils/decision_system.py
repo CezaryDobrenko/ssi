@@ -141,7 +141,7 @@ class DecisionSystem:
                     values_x,
                     values_y,
                     color=colors[i],
-                    label=f"class= {self.__class_names[i]}",
+                    label=f"class= {classes[i]}",
                 )
             current_subplot += 1
         if save_plot:
