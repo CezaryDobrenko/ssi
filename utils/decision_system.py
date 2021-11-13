@@ -80,8 +80,11 @@ class DecisionSystem:
     def add_descriptor(self, descriptor: Descriptor) -> None:
         self.__descriptors.append(descriptor)
 
-    def set_class_names(self, class_names) -> None:
+    def set_class_names(self, class_names: List[str]) -> None:
         self.__class_names = class_names
+
+    def get_class_names(self) -> List[str]:
+        return self.__class_names
 
     def get_descriptor(self, index: int) -> Descriptor:
         return self.__descriptors[index]
@@ -117,7 +120,7 @@ class DecisionSystem:
         subplots_info: Tuple[int, int],
         subplots_data: List[Tuple[int, int]],
         selected_classes: Optional[List[str]] = None,
-        special_points: Optional[List[Descriptor]] = None,
+        special_points: Optional[Tuple[List[float]]] = None,
         show_plot: Optional[bool] = False,
         save_plot: Optional[bool] = False,
     ) -> None:
@@ -149,8 +152,7 @@ class DecisionSystem:
                 )
             current_subplot += 1
         if special_points:
-            special_x_coord = [point.get_value(0) for point in special_points]
-            special_y_coord = [point.get_value(1) for point in special_points]
+            special_x_coord, special_y_coord = special_points
             plotter.draw_points(
                 special_x_coord, special_y_coord, label="special_points"
             )

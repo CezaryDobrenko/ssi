@@ -1,7 +1,7 @@
 import copy
 import math
 import random
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 from utils.decision_system import DecisionSystem
 from utils.descriptor import Descriptor
@@ -87,6 +87,17 @@ class AlgorithmKMeans:
             middle_points.append(copy.deepcopy(random.choice(probes)))
         return middle_points
 
+    def __convert_middle_points(
+        self, middle_points: List[Descriptor]
+    ) -> List[Tuple[float, float]]:
+        middle_points_x = []
+        middle_points_y = []
+        for middle_point in middle_points:
+            x, y = middle_point.get_values()
+            middle_points_x.append(x)
+            middle_points_y.append(y)
+        return (middle_points_x, middle_points_y)
+
     def __create_plot(
         self,
         middle_points: List[Descriptor],
@@ -94,10 +105,11 @@ class AlgorithmKMeans:
         save: Optional[bool] = False,
     ):
         if show or save:
+            middle_points_coords = self.__convert_middle_points(middle_points)
             self.__decision_system.add_plot(
                 (1, 1),
                 [(0, 1)],
-                special_points=middle_points,
+                special_points=middle_points_coords,
                 show_plot=show,
                 save_plot=save,
             )
