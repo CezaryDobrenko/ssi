@@ -1,4 +1,5 @@
 from typing import List, Optional, Tuple
+from utils.bitmap import Bitmap
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -39,7 +40,7 @@ class Plotter:
 
     def show(self) -> None:
         plt.show()
-
+    
     def close(self) -> None:
         plt.close()
 
@@ -138,3 +139,11 @@ class Plotter:
         plt.plot(arguments, values, style, label=label)
         plt.legend(loc="upper left", prop={"size": 6})
         plt.draw()
+
+    def draw_monochromatic_bitmap(self, bitmap: Bitmap) -> None:
+        Z = np.array(bitmap.get_matrix())
+        x,y = Z.shape
+        G = np.zeros((x,y,3))
+        G[Z==1] = [0,0,0]
+        G[Z==0] = [1,1,1]
+        plt.imshow(G,interpolation='nearest')

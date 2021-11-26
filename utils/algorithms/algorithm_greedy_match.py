@@ -1,8 +1,8 @@
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 from utils.bitmap import Bitmap
-
+from utils.plotter import Plotter
 
 class AlgorithmGreedyMatch:
     __reference_bitmaps: List[Bitmap]
@@ -10,7 +10,7 @@ class AlgorithmGreedyMatch:
     def __init__(self, reference_bitmaps: List[Bitmap]):
         self.__reference_bitmaps = reference_bitmaps
 
-    def classify_bitmap(self, test_bitmap: Bitmap) -> Bitmap:
+    def classify_bitmap(self, test_bitmap: Bitmap, show_output: Optional[bool] = False) -> Bitmap:
         bitmaps_distance = {}
         for reference_bitmap in self.__reference_bitmaps:
             reference_class = reference_bitmap.get_class_name()
@@ -24,6 +24,9 @@ class AlgorithmGreedyMatch:
             bitmaps_distance[reference_class] = distance
         most_similar_class = max(bitmaps_distance, key=bitmaps_distance.get)
         test_bitmap.set_class_name(most_similar_class)
+        if show_output:
+            ref_bitmap = self.get_reference_bitmap_by_class_name(most_similar_class)
+            self.__draw_output(test_bitmap, ref_bitmap)
         return test_bitmap
 
     def calculate_measure_of_dissimilarity(
@@ -59,6 +62,15 @@ class AlgorithmGreedyMatch:
             math.pow((start_x - end_x), 2) + math.pow((start_y - end_y), 2)
         )
 
+    def __draw_output(self, test_bitmap: Bitmap, ref_bitmap: Bitmap) -> None:
+        plotter = Plotter(subplots=(1, 2))
+        plotter.add_title(f"reference bitmap class: {ref_bitmap.get_class_name()}")
+        plotter.draw_monochromatic_bitmap(ref_bitmap)
+        plotter.change_subplot(2)
+        plotter.add_title(f"test bitmap classified as: {test_bitmap.get_class_name()}")
+        plotter.draw_monochromatic_bitmap(test_bitmap)
+        plotter.show()
+
     def __calculate_manhattan_distance(
         self, start_point: Tuple[int, int], end_point: Tuple[int, int]
     ) -> int:
@@ -80,6 +92,15 @@ class AlgorithmGreedyMatch:
         if index > len(self.__reference_bitmaps):
             raise Exception("Bitmap with given index does not exist!")
         return self.__reference_bitmaps[index]
+
+    def get_reference_bitmap_by_class_name(self, class_name: str) -> Bitmap:
+        ref_bitmap_output = None
+        for ref_bitmap in self.__reference_bitmaps:
+            if ref_bitmap.get_class_name() == class_name:
+                ref_bitmap_output = ref_bitmap
+        if not ref_bitmap_output:
+            raise Exception("Bitmap with given class name does not exist!")
+        return ref_bitmap_output
 
     def __str__(self):
         return f"AlgorithmGreedyMatch: reference_bitmaps: {self.__reference_bitmaps}"

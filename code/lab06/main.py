@@ -1,6 +1,7 @@
 from utils.algorithms.algorithm_greedy_match import AlgorithmGreedyMatch
 from utils.bitmap import Bitmap
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 def main():
     reference_matrix_1 = [
@@ -40,7 +41,7 @@ def main():
     test_bitmap = Bitmap(test_matrix, None)
 
     algorithm = AlgorithmGreedyMatch(reference_bitmaps)
-    classified_bitmap = algorithm.classify_bitmap(test_bitmap)
+    classified_bitmap = algorithm.classify_bitmap(test_bitmap, show_output=True)
     print(classified_bitmap)
 
 
