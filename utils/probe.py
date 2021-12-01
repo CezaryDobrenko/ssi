@@ -34,3 +34,8 @@ class Probe:
         return (
             f"Probe: coordinates(x1={self.__x1}, x2={self.__x2}, value={self.__value})"
         )
+
+    def __repr__(self):
+        return (
+            f"Probe: coordinates(x1={self.__x1}, x2={self.__x2}, value={self.__value})"
+        )
