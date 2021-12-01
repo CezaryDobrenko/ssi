@@ -14,7 +14,6 @@ class AlgorithmFirefly:
     __gamma_0: float
     __beta_0: float
     __mu_0: float
-    __N: int
     __show_each_epoch: bool
     __save_each_epoch: bool
 
@@ -31,7 +30,6 @@ class AlgorithmFirefly:
         self.__gamma_0 = gamma_0
         self.__beta_0 = beta_0
         self.__mu_0 = mu_0
-        self.__N = N
         self.__bounds = bounds
         self.__show_each_epoch = show_each_epoch
         self.__save_each_epoch = save_each_epoch
@@ -55,9 +53,8 @@ class AlgorithmFirefly:
                     new_xa2 = self.__check_boundaries(xa2 + beta * (xb2 - xa2))
                     probe_a.set_coordinates(new_xa1, new_xa2)
             xa1, xa2 = probe_a.get_coordinates()
-            mi = random.uniform(-3, 3)
-            new_xa1 = self.__check_boundaries(xa1 + mi)
-            new_xa2 = self.__check_boundaries(xa2 + mi)
+            new_xa1 = self.__check_boundaries(xa1 + random.uniform(-3, 3))
+            new_xa2 = self.__check_boundaries(xa2 + random.uniform(-3, 3))
             probe_a.set_coordinates(new_xa1, new_xa2)
         self.draw_plot(self.__specimens, index)
         return self.__specimens
