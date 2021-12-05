@@ -15,8 +15,8 @@ def main():
     # lab03b.main()
     # lab04a.main()
     # lab04b.main()
-    lab05.main()
-    # lab06.main()
+    # lab05.main()
+    lab06.main()
 
 
 if __name__ == "__main__":
