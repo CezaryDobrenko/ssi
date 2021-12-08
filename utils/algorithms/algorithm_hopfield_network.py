@@ -18,17 +18,18 @@ class HopfieldNetwork:
 
     def fix_bitmap(self, input_bitmap: Bitmap) -> Bitmap:
         test_set = self.__convert_bitmap_to_training_set(input_bitmap)
-        for i in range(len(test_set)):
-            tmp_sum = 0
-            for j in range(len(test_set)):
-                if i != j:
-                    tmp_sum += test_set[j] * self.__weight_matrix[i][j]
-            prediction_value = self.sigma_function(tmp_sum)
-            if test_set[i] != prediction_value:
-                test_set[i] *= -1
-
-        output_bitmap = self.__convert_training_set_to_bitmap(test_set)
-        reference_bitmap = self.__get_identified_bitmap(test_set)
+        reference_bitmap = None
+        while(reference_bitmap is None):
+            for i in range(len(test_set)):
+                tmp_sum = 0
+                for j in range(len(test_set)):
+                    if i != j:
+                        tmp_sum += test_set[j] * self.__weight_matrix[i][j]
+                prediction_value = self.sigma_function(tmp_sum)
+                if test_set[i] != prediction_value:
+                    test_set[i] *= -1
+            output_bitmap = self.__convert_training_set_to_bitmap(test_set)
+            reference_bitmap = self.__get_identified_bitmap(test_set)
         self.__draw_output(input_bitmap, output_bitmap, reference_bitmap)
         return output_bitmap
 

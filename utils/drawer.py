@@ -24,14 +24,24 @@ class Drawer:
         self.output_matrix = [[0 for _ in range(end_x)] for _ in range(end_y)]
 
     def __onclick(self, event: object) -> None:
-        self.output_matrix[int(event.ydata)][int(event.xdata)] = 1
-        plt.scatter(
-            int(event.xdata) + 0.5,
-            int(event.ydata) + 0.5,
-            color="black",
-            marker="s",
-            s=1000,
-        )
+        if self.output_matrix[int(event.ydata)][int(event.xdata)] == 1:
+            self.output_matrix[int(event.ydata)][int(event.xdata)] = 0
+            plt.scatter(
+                int(event.xdata) + 0.5,
+                int(event.ydata) + 0.5,
+                color="white",
+                marker="s",
+                s=1000,
+            )
+        else:
+            self.output_matrix[int(event.ydata)][int(event.xdata)] = 1
+            plt.scatter(
+                int(event.xdata) + 0.5,
+                int(event.ydata) + 0.5,
+                color="black",
+                marker="s",
+                s=1000,
+            )
         self.fig.canvas.draw()
 
     def draw_matrix(self) -> List[List[float]]:
@@ -39,6 +49,7 @@ class Drawer:
         plt.grid()
         plt.xticks(self.__xticks)
         plt.yticks(self.__yticks)
+        plt.title("Draw bitmap")
         plt.show()
         return self.output_matrix[::-1]
 
