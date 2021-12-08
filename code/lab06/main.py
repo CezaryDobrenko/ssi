@@ -1,6 +1,7 @@
 from utils.algorithms.algorithm_greedy_match import AlgorithmGreedyMatch
-from utils.drawer import Drawer
 from utils.bitmap import Bitmap
+from utils.drawer import Drawer
+
 
 def main():
     reference_matrix_1 = [
@@ -31,7 +32,7 @@ def main():
         Bitmap(reference_matrix_3, "ref_3"),
     ]
 
-    drawer = Drawer((0,4), (0,5))
+    drawer = Drawer((0, 4), (0, 5))
     test_matrix = drawer.draw_matrix()
     test_bitmap = Bitmap(test_matrix, None)
 

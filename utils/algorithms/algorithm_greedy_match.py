@@ -1,8 +1,9 @@
 import math
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 from utils.bitmap import Bitmap
 from utils.plotter import Plotter
+
 
 class AlgorithmGreedyMatch:
     __reference_bitmaps: List[Bitmap]
@@ -10,7 +11,9 @@ class AlgorithmGreedyMatch:
     def __init__(self, reference_bitmaps: List[Bitmap]):
         self.__reference_bitmaps = reference_bitmaps
 
-    def classify_bitmap(self, test_bitmap: Bitmap, show_output: Optional[bool] = False) -> Bitmap:
+    def classify_bitmap(
+        self, test_bitmap: Bitmap, show_output: Optional[bool] = False
+    ) -> Bitmap:
         bitmaps_distance = {}
         for reference_bitmap in self.__reference_bitmaps:
             reference_class = reference_bitmap.get_class_name()

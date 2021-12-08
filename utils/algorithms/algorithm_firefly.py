@@ -1,5 +1,5 @@
-import random
 import math
+import random
 from typing import List, Optional, Tuple
 
 import matplotlib.pyplot as plt
@@ -35,7 +35,6 @@ class AlgorithmFirefly:
         self.__save_each_epoch = save_each_epoch
         self.__specimens = self.__generate_population(N, bounds)
 
-
     def evolve_population(self, epochs: int) -> None:
         for index in range(epochs):
             self.__specimens = self.__evolve_next_population(index)
@@ -46,7 +45,7 @@ class AlgorithmFirefly:
                 if probe_b.get_value() > probe_a.get_value():
                     dist = self.__calculate_distance(probe_a, probe_b)
                     gamma = self.__gamma_0 / dist
-                    beta = self.__beta_0 * math.pow(math.e, -gamma * math.pow(dist,2))
+                    beta = self.__beta_0 * math.pow(math.e, -gamma * math.pow(dist, 2))
                     xa1, xa2 = probe_a.get_coordinates()
                     xb1, xb2 = probe_b.get_coordinates()
                     new_xa1 = self.__check_boundaries(xa1 + beta * (xb1 - xa1))
@@ -78,7 +77,7 @@ class AlgorithmFirefly:
             x2 = random.uniform(left_bound, right_bound)
             population.append(Probe(x1, x2))
         return population
-    
+
     def draw_plot(self, population: List[Probe], index: int):
         x1 = np.linspace(0, 100)
         x2 = np.linspace(0, 100)
