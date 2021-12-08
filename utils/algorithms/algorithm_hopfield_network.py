@@ -117,9 +117,9 @@ class HopfieldNetwork:
 
         bitmap_matrix = []
         index = 0
-        for _ in range(x_dimension):
+        for _ in range(y_dimension):
             row = []
-            for _ in range(y_dimension):
+            for _ in range(x_dimension):
                 row.append(converted_training_set[index])
                 index += 1
             bitmap_matrix.append(row)
