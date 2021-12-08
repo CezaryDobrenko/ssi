@@ -89,7 +89,7 @@ class HopfieldNetwork:
         plotter.add_title(f"input bitmap")
         plotter.draw_monochromatic_bitmap(input_bitmap)
         plotter.change_subplot(2)
-        plotter.add_title(f"output bitmap")
+        plotter.add_title(f"corrected bitmap")
         plotter.draw_monochromatic_bitmap(output_bitmap)
         plotter.change_subplot(3)
         plotter.add_title(f"reference bitmap")
