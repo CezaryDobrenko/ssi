@@ -52,6 +52,18 @@ class Plotter:
     def add_grid(self) -> None:
         plt.grid()
 
+    def set_xticks(self, xticks: List[int]) -> None:
+        plt.xticks(xticks)
+
+    def set_yticks(self, yticks: List[int]) -> None:
+        plt.yticks(yticks)
+
+    def set_xlim(self, start_x: int, end_x: int) -> None:
+        self.ax.set_xlim([start_x, end_x])
+
+    def set_ylim(self, start_x: int, end_x: int) -> None:
+        self.ax.set_ylim([start_x, end_x])
+
     def add_title(self, title: str) -> None:
         plt.title(title)
 
@@ -149,3 +161,14 @@ class Plotter:
         G[Z == 0] = [1, 1, 1]
         plt.xticks([i for i in range(x)])
         plt.imshow(G, interpolation="nearest")
+
+    def draw_truck_market(self, x: int, y: int, rotation: int) -> None:
+        plt.plot(
+            x,
+            y,
+            marker=(3, 0, rotation),
+            markersize=10,
+            linestyle="None",
+            color="black",
+        )
+        plt.draw()

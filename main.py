@@ -7,6 +7,7 @@ import code.lab04b.main as lab04b
 import code.lab05.main as lab05
 import code.lab06.main as lab06
 import code.lab07.main as lab07
+import code.lab08.main as lab08
 
 
 def main():
@@ -18,7 +19,8 @@ def main():
     # lab04b.main()
     # lab05.main()
     # lab06.main()
-    lab07.main()
+    # lab07.main()
+    lab08.main()
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ class HopfieldNetwork:
     def fix_bitmap(self, input_bitmap: Bitmap) -> Bitmap:
         test_set = self.__convert_bitmap_to_training_set(input_bitmap)
         reference_bitmap = None
-        while(reference_bitmap is None):
+        while reference_bitmap is None:
             for i in range(len(test_set)):
                 tmp_sum = 0
                 for j in range(len(test_set)):
