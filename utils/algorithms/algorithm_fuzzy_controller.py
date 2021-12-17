@@ -1,6 +1,7 @@
 import os
 import random
 from typing import List, Tuple
+import json
 
 import pygame
 
@@ -19,8 +20,9 @@ class AlgorithmFuzzyController:
         self.exit = False
         self.freeze = False
         self.end = False
+        self.path_data = []
 
-    def play(self, save_frames: bool, freeze_on_end: bool) -> None:
+    def play(self, save_frames: bool, freeze_on_end: bool, save_logs: bool) -> None:
         self.freeze = freeze_on_end
         car_image = self.__load_car_image()
         car = self.__create_car()
@@ -78,6 +80,11 @@ class AlgorithmFuzzyController:
                     pygame.image.save(self.screen, f"plots/frame{self.index}.jpg")
                     self.index += 1
                 self.clock.tick(self.ticks)
+                self.path_data.append([car.position.x, car.position.y, car.angle])
+        if save_logs:
+            f = open("code/lab08/path_log.txt","w+")
+            f.write(self.__parse_to_json(self.path_data))
+            f.close()
         pygame.quit()
 
     def get_game_result(self) -> str:
@@ -162,3 +169,6 @@ class AlgorithmFuzzyController:
         current_dir = os.path.dirname(os.path.abspath("ssi"))
         image_path = os.path.join(current_dir, "assets/car.png")
         return pygame.image.load(image_path)
+
+    def __parse_to_json(self, data: List) -> str:
+        return json.dumps(data)
